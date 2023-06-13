@@ -1,18 +1,19 @@
+import { decorateDefaultContent } from '../../scripts/functions.js';
+
 export default function decorate(block) {
   const cols = [...block.firstElementChild.children];
-  block.classList.add(`columns-${cols.length}-cols`);
+  const filteredClassList = [...block.classList]
+    .filter((cls) => cls !== 'columns' && cls !== 'block');
+  const type = filteredClassList.length ? `-${filteredClassList[0]}` : '';
 
-  // setup image columns
-  [...block.children].forEach((row) => {
-    [...row.children].forEach((col) => {
-      const pic = col.querySelector('picture');
-      if (pic) {
-        const picWrapper = pic.closest('div');
-        if (picWrapper && picWrapper.children.length === 1) {
-          // picture is only content in column
-          picWrapper.classList.add('columns-img-col');
-        }
-      }
-    });
+  let mjml = `<mj-section mj-class="mj-colums${type}-cols-${cols.length}">`;
+  cols.forEach((div, index) => {
+    mjml += `
+      <mj-column mj-class="mj-columns${type}-col mj-columns${type}-col-${index + 1} mj-columns${type}-col-${index === 0 ? 'first' : (index === cols.length - 1 ? 'last' : '')}">
+        ${decorateDefaultContent(div)}
+      </mj-column>
+    `;
   });
+  mjml += '</mj-section>';
+  return mjml;
 }
