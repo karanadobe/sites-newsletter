@@ -1,112 +1,53 @@
-import {
-  sampleRUM,
-  buildBlock,
-  loadHeader,
-  loadFooter,
-  decorateButtons,
-  decorateIcons,
-  decorateSections,
-  decorateBlocks,
-  decorateTemplateAndTheme,
-  waitForLCP,
-  loadBlocks,
-  loadCSS,
-} from './lib-franklin.js';
+import { sampleRUM, waitForLCP } from './lib-franklin.js';
+import { decorateMain, toMjml, init } from './functions.js';
 
-const LCP_BLOCKS = []; // add your LCP blocks to the list
+window.hlx = window.hlx || {};
+window.hlx.RUM_GENERATION = 'sites-newsletter'; // add your RUM generation information here
 
 /**
- * Builds hero block and prepends to main in a new section.
- * @param {Element} main The container element
- */
-function buildHeroBlock(main) {
-  const h1 = main.querySelector('h1');
-  const picture = main.querySelector('picture');
-  // eslint-disable-next-line no-bitwise
-  if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
-    const section = document.createElement('div');
-    section.append(buildBlock('hero', { elems: [picture, h1] }));
-    main.prepend(section);
-  }
-}
-
-/**
- * Builds all synthetic blocks in a container element.
- * @param {Element} main The container element
- */
-function buildAutoBlocks(main) {
-  try {
-    buildHeroBlock(main);
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Auto Blocking failed', error);
-  }
-}
-
-/**
- * Decorates the main element.
- * @param {Element} main The main element
- */
-// eslint-disable-next-line import/prefer-default-export
-export function decorateMain(main) {
-  // hopefully forward compatible button decoration
-  decorateButtons(main);
-  decorateIcons(main);
-  buildAutoBlocks(main);
-  decorateSections(main);
-  decorateBlocks(main);
-}
-
-/**
- * Loads everything needed to get to LCP.
- * @param {Element} doc The container element
+ * loads everything needed to get to LCP.
  */
 async function loadEager(doc) {
-  document.documentElement.lang = 'en';
-  decorateTemplateAndTheme();
   const main = doc.querySelector('main');
-  if (main) {
-    decorateMain(main);
-    document.body.classList.add('appear');
-    await waitForLCP(LCP_BLOCKS);
+  decorateMain(main);
+  await waitForLCP([]);
+
+  const html = await toMjml(main);
+  let frame = document.getElementById('__emailFrame');
+  if (!frame) {
+    frame = document.createElement('iframe');
+    frame.srcdoc = html;
+    frame.width = '100%';
+    frame.height = '100%';
+    frame.id = '__emailFrame';
+    document.body.insertAdjacentElement('beforeend', frame);
+  } else {
+    frame.srcdoc = html;
+  }
+
+  if (document.querySelector('helix-sidekick')) {
+    await import('../tools/sidekick/plugins.js');
+  } else {
+    document.addEventListener('helix-sidekick-ready', () => import('../tools/sidekick/plugins.js'), { once: true });
   }
 }
 
 /**
- * Loads everything that doesn't need to be delayed.
- * @param {Element} doc The container element
+ * loads everything that doesn't need to be delayed.
  */
-async function loadLazy(doc) {
-  const main = doc.querySelector('main');
-  await loadBlocks(main);
-
-  const { hash } = window.location;
-  const element = hash ? doc.getElementById(hash.substring(1)) : false;
-  if (hash && element) element.scrollIntoView();
-
-  loadHeader(doc.querySelector('header'));
-  loadFooter(doc.querySelector('footer'));
-
-  loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
+async function loadLazy(/* doc */) {
   sampleRUM('lazy');
-  sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
-  sampleRUM.observe(main.querySelectorAll('picture > img'));
-}
 
-/**
- * Loads everything that happens a lot later,
- * without impacting the user experience.
- */
-function loadDelayed() {
-  // eslint-disable-next-line import/no-cycle
-  window.setTimeout(() => import('./delayed.js'), 3000);
-  // load anything that can be postponed to the latest here
+  if (window.location.hostname.endsWith('hlx.page') || window.location.hostname === ('localhost')) {
+    // eslint-disable-next-line import/no-cycle
+    import('../tools/ajo/email-preview.js');
+  }
 }
 
 async function loadPage() {
+  init(window);
   await loadEager(document);
   await loadLazy(document);
-  loadDelayed();
 }
 
 loadPage();

@@ -1,33 +1,11 @@
-.columns > div {
-  display: flex;
-  flex-direction: column;
+.mj-columns-with-paddings-col {
+    padding: 0 25px;
 }
 
-.columns img {
-  width: 100%;
+.mj-columns-with-paddings-col-first {
+    padding-left: 50px;
 }
 
-.columns > div > div {
-  order: 1;
-}
-
-.columns > div > .columns-img-col {
-  order: 0;
-}
-
-.columns > div > .columns-img-col img {
-  display: block;
-}
-
-@media (min-width: 900px) {
-  .columns > div {
-    align-items: center;
-    flex-direction: unset;
-    gap: 32px;
-  }
-
-  .columns > div > div {
-    flex: 1;
-    order: unset;
-  }
+.mj-columns-with-paddings-col-last {
+    padding-right: 50px;
 }

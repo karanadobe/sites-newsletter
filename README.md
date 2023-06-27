@@ -2,8 +2,8 @@
 Your project's description...
 
 ## Environments
-- Preview: https://main--{repo}--{owner}.hlx.page/
-- Live: https://main--{repo}--{owner}.hlx.live/
+- Preview: https://main--sites-newsletter--gknobloch.hlx.page/
+- Live: https://main--sites-newsletter--gknobloch.hlx.live/
 
 ## Installation
 
@@ -11,10 +11,10 @@ Your project's description...
 npm i
 ```
 
-## Linting
+## Tests
 
 ```sh
-npm run lint
+npm test
 ```
 
 ## Local development

@@ -1,0 +1,15 @@
+
+{
+    "project": "sites-newsletter",
+    "plugins": [
+        {
+            "id": "copyHtml",
+            "title": "Copy E-Mail",
+            "environments": [
+                "dev",
+                "live"
+            ],
+            "event": "copyHtml"
+        }
+    ]
+}
