@@ -1,9 +1,10 @@
-import { getMetadata, decorateIcons } from '../../scripts/lib-franklin.js';
+import { getMetadata } from '../../scripts/lib-franklin.js';
 
 /**
  * decorates the header, mainly the nav
  * @param {Element} block The header block element
  */
+// eslint-disable-next-line no-unused-vars
 export default async function decorate(block) {
   // fetch nav content
   const navMeta = getMetadata('nav');
@@ -16,6 +17,5 @@ export default async function decorate(block) {
     // decorate nav DOM
     const header = document.querySelector('header');
     header.innerHTML = html;
-
   }
 }

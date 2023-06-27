@@ -8,8 +8,8 @@ export default function decorate(block) {
 
   let mjml = `<mj-section mj-class="mj-colums${type}-cols-${cols.length}">`;
   cols.forEach((div, index) => {
-    mjml += `
-      <mj-column mj-class="mj-columns${type}-col mj-columns${type}-col-${index + 1} mj-columns${type}-col-${index === 0 ? 'first' : (index === cols.length - 1 ? 'last' : '')}">
+    // eslint-disable-next-line no-nested-ternary
+    mjml += `<mj-column mj-class="mj-columns${type}-col mj-columns${type}-col-${index + 1} mj-columns${type}-col-${index === 0 ? 'first' : (index === cols.length - 1 ? 'last' : '')}">
         ${decorateDefaultContent(div)}
       </mj-column>
     `;
