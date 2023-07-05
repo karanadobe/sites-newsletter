@@ -2,8 +2,8 @@
 Your project's description...
 
 ## Environments
-- Preview: https://main--sites-newsletter--gknobloch.hlx.page/
-- Live: https://main--sites-newsletter--gknobloch.hlx.live/
+- Preview: https://main--sites-newsletter--hlxsites.hlx.page/
+- Live: https://main--sites-newsletter--hlxsites.hlx.live/
 
 ## Installation
 
