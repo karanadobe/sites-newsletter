@@ -78,9 +78,9 @@ mj-wrapper {
 }
 
 mj-column {
-    vertical-align: middle;
+    vertical-align: top;
 }
 
 .mj-content-column {
-    padding: 0 ;
+    padding: 0;
 }
