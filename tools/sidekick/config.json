@@ -6,7 +6,9 @@
             "id": "ajo-integration",
             "title": "AJO",
             "environments": [
+                "admin",
                 "dev",
+                "preview",
                 "live"
             ],
             "event": "login",
