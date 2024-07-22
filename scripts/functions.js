@@ -1,6 +1,5 @@
 import {
   decorateBlocks,
-  decorateButtons,
   decorateIcons,
   decorateSections,
   decorateTemplateAndTheme,
@@ -247,14 +246,6 @@ export function decorateDefaultContent(wrapper, { textClass = '', buttonClass = 
       if (img) {
         return `${mjml}<mj-image mj-class="${imageClass}" src="${img.src}" />`;
       }
-      if (par.matches('.button-container')) {
-        const link = par.querySelector(':scope > a');
-        return `${mjml}
-                <mj-button mj-class="${buttonClass}" href="${link.href}">
-                  ${link.innerText}
-                </mj-button>
-            `;
-      }
       if (mjml.endsWith('</mj-text>')) {
         return `${mjml.substring(0, mjml.length - 10)}${par.outerHTML}</mj-text>`;
       }
@@ -366,7 +357,6 @@ function decoratePersonalization(main) {
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
   decorateTemplateAndTheme();
-  decorateButtons(main);
   decorateIcons(main);
   decorateSections(main);
   decorateBlocks(main);
