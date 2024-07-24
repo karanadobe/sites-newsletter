@@ -1,6 +1,5 @@
 import {
   decorateBlocks,
-  decorateButtons,
   decorateIcons,
   decorateSections,
   decorateTemplateAndTheme,
@@ -247,19 +246,21 @@ export function decorateDefaultContent(wrapper, { textClass = '', buttonClass = 
       if (img) {
         return `${mjml}<mj-image mj-class="${imageClass}" src="${img.src}" />`;
       }
-      if (par.matches('.button-container')) {
-        const link = par.querySelector(':scope > a');
-        return `${mjml}
-                <mj-button mj-class="${buttonClass}" href="${link.href}">
-                  ${link.innerText}
-                </mj-button>
-            `;
-      }
       if (mjml.endsWith('</mj-text>')) {
         return `${mjml.substring(0, mjml.length - 10)}${par.outerHTML}</mj-text>`;
       }
       return `${mjml}<mj-text mj-class="${textClass}">${par.outerHTML}</mj-text>`;
     }, '');
+}
+
+export function decorateError(message = 'Unknown error', current = '') {
+  var mjml = `<mj-section mj-class="mj-error">`;
+  mjml += `<mj-text>${message}</mj-text>`;
+  if (current) {
+    mjml += `<mj-text>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Currently: ${current}</mj-text>`;
+  }
+  mjml += `</mj-section>`;
+  return mjml;
 }
 
 export async function toMjml(main) {
@@ -366,7 +367,6 @@ function decoratePersonalization(main) {
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
   decorateTemplateAndTheme();
-  decorateButtons(main);
   decorateIcons(main);
   decorateSections(main);
   decorateBlocks(main);
