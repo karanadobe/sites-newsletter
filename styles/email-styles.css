@@ -83,7 +83,6 @@ mj-column {
 .mj-error {
     padding: 25px;
     background-color: lightcoral;
-    font-weight: bold;
     css-class: 'error';
 }
 
