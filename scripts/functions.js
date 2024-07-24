@@ -253,6 +253,16 @@ export function decorateDefaultContent(wrapper, { textClass = '', buttonClass = 
     }, '');
 }
 
+export function decorateError(message = 'Unknown error', current = '') {
+  var mjml = `<mj-section mj-class="mj-error">`;
+  mjml += `<mj-text>${message}</mj-text>`;
+  if (current) {
+    mjml += `<mj-text>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Currently: ${current}</mj-text>`;
+  }
+  mjml += `</mj-section>`;
+  return mjml;
+}
+
 export async function toMjml(main) {
   const mjml2html$ = loadMjml();
   const main$ = Promise.all([...main.querySelectorAll(':scope > .section')]

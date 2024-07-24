@@ -69,3 +69,24 @@ mj-column {
 .mj-content-column {
     padding: 0;
 }
+
+.mj-summary {
+    padding: 0 25px;
+    background-color: #ddd;
+    css-class: 'summary';
+}
+
+.summary ul li {
+    padding: 5px 0;
+}
+
+.mj-error {
+    padding: 25px;
+    background-color: lightcoral;
+    font-weight: bold;
+    css-class: 'error';
+}
+
+.error {
+    font-style: italic;
+}
